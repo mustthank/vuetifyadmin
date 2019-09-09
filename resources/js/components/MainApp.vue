@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="admin">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -82,10 +82,8 @@
     </v-app-bar>
 
     <v-content>
-      <v-container grid-list-xs>
         
        <router-view></router-view>
-      </v-container>
     </v-content>
   </v-app>
 </template>

@@ -1,5 +1,6 @@
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
+import Posts from './views/post/index.vue';
 
 export const routes = [
     {
@@ -10,6 +11,13 @@ export const routes = [
     {
         path : '/admin/home',
         component : Home,
+        meta:{
+            requireAuth : true
+        }
+    },
+    {
+        path : '/admin/posts',
+        component : Posts,
         meta:{
             requireAuth : true
         }

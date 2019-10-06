@@ -33,5 +33,8 @@ Route::group(['middleware' => 'auth'], function ($router) {
 
     Route::get('posts', 'Admin\PostController@index');
     Route::delete('posts/{id}', 'Admin\PostController@destroy');
+    Route::patch('post/edit/{id}', 'Admin\PostController@update');
+    Route::post('post/new', 'Admin\PostController@store');
+    Route::get('post/{id}', 'Admin\PostController@edit');
 
 });

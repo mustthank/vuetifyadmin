@@ -12,7 +12,7 @@ import {initialize} from './helpers/general';
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form
 
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 // CommonJS
 window.Swal = require('sweetalert2')

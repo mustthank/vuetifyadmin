@@ -13,7 +13,7 @@
                 <div class="text-center d-flex align-center">
                     <v-tooltip top>
                         <template v-slot:activator="{on}">
-                            <v-btn class="v-btn-simple" color="success" icon v-on="on">
+                            <v-btn class="v-btn-simple" color="success" icon v-on="on" @click="editPost(item.id)">
                                 <v-icon>mdi-pencil</v-icon>
                             </v-btn>
                         </template>
@@ -33,8 +33,10 @@
         </v-data-table>
     </v-card-text>
     <v-card-actions>
-        <v-btn color="primary">text</v-btn>
-        <v-btn color="primary">text</v-btn>
+        <router-link to="/admin/post/">
+            <v-btn outlined color="primary">Add New</v-btn>
+        </router-link>
+        <!-- <v-btn color="primary">text</v-btn> -->
     </v-card-actions>
 </v-card>
 </template>
@@ -56,7 +58,7 @@ export default {
             form: new Form({})
         }
     },
-    methods:{
+    methods: {
         deletePost(id) {
             Swal.fire({
                 title: 'Are you sure?',
@@ -67,28 +69,49 @@ export default {
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
-                this.form.delete('/api/posts/' + id)
-                    .then((results) => {
-                         Fire.$emit('afterCreate')
+                if (result.value) {
+                    this.form.delete('/api/posts/' + id)
+                     Fire.$emit('afterCreate')
                         Swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
                             'success'
                         )
-                       
-                    })
-                    .catch((error) => {
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Ooops',
-                            text: error
-                        })
-                    })
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    Swal.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
+                }
+                // this.form.delete('/api/posts/' + id)
+                //     .then((results) => {
+                //          Fire.$emit('afterCreate')
+                //         Swal.fire(
+                //             'Deleted!',
+                //             'Your file has been deleted.',
+                //             'success'
+                //         )
+
+                //     })
+                //     .catch((error) => {
+                //         Swal.fire({
+                //             type: 'error',
+                //             title: 'Ooops',
+                //             text: error
+                //         })
+                //     })
 
             })
         },
-        refreshPost(){
+        refreshPost() {
             this.$store.dispatch('getPosts');
+        },
+        editPost(id) {
+            this.$router.push('/admin/post/' + id)
         }
     },
     computed: {
@@ -102,10 +125,11 @@ export default {
         }
         this.$store.dispatch('getPosts');
     },
-    created(){
-        Fire.$on('afterCreate', ()=>{
+    created() {
+        Fire.$on('afterCreate', () => {
             this.refreshPost();
         })
+        this.refreshPost();
     }
 }
 </script>
